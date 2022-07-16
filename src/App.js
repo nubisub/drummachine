@@ -10,6 +10,7 @@ const Option = (props) => {
 
     const handleChange = (e, val) => {
         setShow(val)
+        props.changeVolume(val/100)
         setTimeout(function() {
             setShow("")
         }, 3000);
@@ -81,6 +82,7 @@ const Button = (props) => {
                 <Option
                     name={name}
                     drum={props.drum}
+                    changeVolume={props.vol}
                 />
 </>
 
@@ -92,11 +94,16 @@ const Button = (props) => {
 
 function App() {
     const [drum, setDrum] = useState("coba")
+    const [volume, setVolume] = useState(0.3)
+
+
+
 
     const handleKeyPress = (event) => {
         if(event.key === 'q'){
             setDrum("Heater 1")
             let audio = new Audio("https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3")
+            audio.volume = volume
             audio.play()
         } else if (event.key === 'w'){
             setDrum("Heater 2")
@@ -123,8 +130,13 @@ function App() {
 
         }
     }
+
     const ubahButton = (props) => {
         setDrum(props)
+    }
+
+    const changeVolume = (props) => {
+        setVolume(props)
     }
 
   return (
@@ -133,6 +145,7 @@ function App() {
               <Button
                   drum={drum}
                   hov={ubahButton}
+                  vol={changeVolume}
               />
           </div>
       </div>

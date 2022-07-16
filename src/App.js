@@ -1,28 +1,40 @@
 import './App.css';
 import {Box, Container, Grid, Paper, Slider, Stack, styled, Switch} from "@mui/material";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import {VolumeDown, VolumeUp} from "@mui/icons-material";
 
 
 const Option = (props) => {
+
+    const [show, setShow] = useState("")
+
+    const handleChange = (e, val) => {
+        setShow(val)
+        setTimeout(function() {
+            setShow("")
+        }, 3000);
+    }
+
     return(
         <div  className="grid grid-cols-1 gap-4 max-w-xl ">
             <div>
                 <p>Power</p>
 
                 <Switch
+
                     // checked={checked}
                     // onChange={handleChange}
                     // inputProps={{ 'aria-label': 'controlled' }}
                 />
             </div>
-            <div>{props.name} </div>
+            <div><p className="min-h-[24px]" >{show}</p></div>
             <div>
                 <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
                     <VolumeDown />
                     <Slider aria-label="Volume"
-                            // value={value}
-                            // onChange={handleChange}
+                            defaultValue={30}
+                        // value={value}
+                            onChange={handleChange}
                     />
                     <VolumeUp />
                 </Stack>
@@ -40,24 +52,36 @@ const Option = (props) => {
 }
 
 
-const Button = () => {
+const Button = (props) => {
 
     const[name, setName] = useState(" ")
+    const drum = "bg-[#E8A87C] rounded-lg flex items-center justify-center cursor-pointer active:scale-95 "
+
+    const handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+            console.log('enter press here! ')
+        }
+        setName("Heater")
+    }
+
 
     return(
 <>
             <div className="grid grid-cols-3 gap-4 max-w-xl " >
-                <div onClick={() => setName("Heater")} className="bg-fuchsia-500" >1</div>
-                <div onClick={() => setName("Heater 2")} className="bg-fuchsia-500">2</div>
-                <div onClick={() => setName("Heater 3")} className="bg-fuchsia-500">3</div>
-                <div onClick={() => setName("Heater 4")} className="bg-fuchsia-500">4</div>
-                <div onClick={() => setName("Clap")} className="bg-fuchsia-500">5</div>
-                <div onClick={() => setName("Open HH")} className="bg-fuchsia-500">6</div>
-                <div onClick={() => setName("Kick n'Hat")} className="bg-fuchsia-500">7</div>
-                <div onClick={() => setName("Kick")} className="bg-fuchsia-500">8</div>
-                <div onClick={() => setName("Closed HH")} className="bg-fuchsia-500">9</div>
+                <div onClick={e => props.hov("Heater 1")}  className={drum} >Q</div>
+                <div onClick={e => props.hov("Heater 2")}  className={drum} >W</div>
+                <div onClick={e => props.hov("Heater 3")} className={drum} >E</div>
+                <div onClick={e => props.hov("Heater 4")} className={drum} >A</div>
+                <div onClick={e => props.hov("Clap")} className={drum} >S</div>
+                <div onClick={e => props.hov("Open HH")} className={drum} >D</div>
+                <div onClick={e => props.hov("Kick n'Hat")} className={drum} >Z</div>
+                <div onClick={e => props.hov("Kick")} className={drum} >X</div>
+                <div onClick={e => props.hov("Closed HH")} className={drum} >C</div>
             </div>
-                <Option name={name} />
+                <Option
+                    name={name}
+                    drum={props.drum}
+                />
 </>
 
 
@@ -67,10 +91,49 @@ const Button = () => {
 
 
 function App() {
+    const [drum, setDrum] = useState("coba")
+
+    const handleKeyPress = (event) => {
+        if(event.key === 'q'){
+            setDrum("Heater 1")
+            let audio = new Audio("https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3")
+            audio.play()
+        } else if (event.key === 'w'){
+            setDrum("Heater 2")
+        }else if (event.key === 'e'){
+            setDrum("Heater 3")
+
+        }else if (event.key === 'a'){
+            setDrum("Heater 4")
+
+        }else if (event.key === 's'){
+            setDrum("Clap")
+
+        }else if (event.key === 'd'){
+            setDrum("HH")
+
+        }else if (event.key === 'z') {
+            setDrum("Kick n' Hat")
+
+        }else if (event.key === 'x') {
+            setDrum("Kick")
+
+        }else if (event.key === 'c') {
+            setDrum("Closed HH")
+
+        }
+    }
+    const ubahButton = (props) => {
+        setDrum(props)
+    }
+
   return (
-      <div className="App h-screen flex justify-center items-center ">
-          <div className="grid grid-cols-2 gap-4 max-w-xl w-96 " >
-              <Button/>
+      <div onKeyDown={handleKeyPress}  tabIndex="0" className="App h-screen flex justify-center items-center bg-[#85CDCB]">
+          <div className="grid gap-4 max-w-xl w-[600px] bg-[#41B3A3]  p-8 rounded-lg sm:grid-cols-2 grid-cols-1  sm:h-auto h-screen " >
+              <Button
+                  drum={drum}
+                  hov={ubahButton}
+              />
           </div>
       </div>
 

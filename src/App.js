@@ -23,7 +23,7 @@ const Option = (props) => {
 
 
     return(
-        <div  className="grid grid-cols-1 gap-4 sm:max-w-xl sm:order-2 order-1  h-[200px] sm:h-auto ">
+        <div  className="grid grid-cols-1 sm:gap-4 gap-0 sm:max-w-xl sm:order-2 order-1  h-[200px] sm:h-auto ">
             <div>
                 <p>Power</p>
 
@@ -77,7 +77,7 @@ const Button = (props) => {
 
     return(
 <>
-            <div  className="grid grid-cols-3 gap-4 max-w-xl order-2 sm:order-1" >
+            <div  className="grid grid-cols-3  gap-4 max-w-xl order-2 sm:order-1" >
                 <div onClick={() => props.hov("Heater 1","Chord 1")}  className={drum} >Q</div>
                 <div onClick={e => props.hov("Heater 2", "Chord 2")}  className={drum} >W</div>
                 <div onClick={e => props.hov("Heater 3", "Chord 3")} className={drum} >E</div>
@@ -171,9 +171,6 @@ function App() {
 
 
     const handleKeyPress = (event) => {
-        if (power === false){
-            return
-        }
         setPlay(play+1)
         if (!isBank){
         if(event.key === 'q'){
@@ -231,8 +228,8 @@ function App() {
     }
 
   return (
-      <div onKeyDown={handleKeyPress}  tabIndex="0" className="App h-screen flex justify-center items-center bg-[#85CDCB]">
-          <div id="drum-machine" className="grid gap-x-4 max-w-xl w-[600px] bg-[#41B3A3]  p-8 rounded-lg sm:grid-cols-2 grid-cols-1  sm:h-auto h-screen " >
+      <div onKeyDown={handleKeyPress}  tabIndex="0" className="App h-screen flex justify-center items-center sm:bg-[#85CDCB] bg-[#41B3A3] ">
+          <div id="drum-machine" className="grid gap-x-4 max-w-xl w-[600px] bg-[#41B3A3]  p-8 rounded-lg sm:grid-cols-2 grid-cols-1  sm:h-auto h-[75vh] " >
               <Button
                   drum={drum}
                   hov={ubahButton}

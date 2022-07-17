@@ -44,6 +44,7 @@ const Option = (props) => {
                             defaultValue={30}
                         // value={value}
                             onChange={handleChange}
+                            disabled={!props.powerbool?true:false}
                     />
                     <VolumeUp />
                 </Stack>
@@ -94,6 +95,7 @@ const Button = (props) => {
                     changeVolume={props.vol}
                     handlePower={props.pow}
                     handleBank={props.bank}
+                    powerbool={props.power}
                 />
 </>
 
@@ -163,6 +165,9 @@ function App() {
 
     const toggle = () => {
         setPower(!power)
+        if (power === true){
+            setDrum("")
+        }
     }
 
 
@@ -171,6 +176,9 @@ function App() {
 
 
     const handleKeyPress = (event) => {
+        if (power === false){
+            return
+        }
         setPlay(play+1)
         if (!isBank){
         if(event.key === 'q'){
@@ -215,6 +223,9 @@ function App() {
     }
 
     const ubahButton = (props, props2) => {
+        if (power === false){
+            return
+        }
         setPlay(play+1)
         if(isBank){
             setDrum(props2)
@@ -235,6 +246,7 @@ function App() {
                   hov={ubahButton}
                   vol={changeVolume}
                   pow={toggle}
+                  power={power}
                   bank={() => setisBank(!isBank)}
               />
           </div>
